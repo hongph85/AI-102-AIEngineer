@@ -83,7 +83,12 @@ namespace train_detector
                     }
 
                     // Add the image and its regions to the list
-                    imageFileEntries.Add(new ImageFileCreateEntry(filename, File.ReadAllBytes(Path.Combine(folder,filename)), null, regions));
+                    imageFileEntries.Add(
+                        new ImageFileCreateEntry(
+                            filename, 
+                            File.ReadAllBytes(Path.Combine(folder,filename)), 
+                            null, 
+                            regions));
                 }
             }
             // Upload the list of images as a batch

@@ -2,9 +2,9 @@
 SETLOCAL ENABLEDELAYEDEXPANSION
 
 rem Set values for your subscription and resource group
-set subscription_id=YOUR_SUBSCRIPTION_ID
-set resource_group=YOUR_RESOURCE_GROUP
-set location=YOUR_LOCATION_NAME
+set subscription_id=98e05785-9393-44e4-a65b-9ee640a6b4da
+set resource_group=ai-search
+set location=australiaeast
 
 rem Get random numbers to create unique resource names
 set unique_id=!random!!random!
@@ -15,7 +15,7 @@ call az storage account create --name ai102str!unique_id! --subscription !subscr
 echo Uploading files...
 rem Hack to get storage key
 for /f "tokens=*" %%a in ( 
-'az storage account keys list --subscription !subscription_id! --resource-group !resource_group! --account-name ai102str!unique_id! --query "[?keyName=='key1']"' 
+'az storage account keys list --subscription !subscription_id! --resource-group !resource_group! --account-name ai102str!unique_id! --query "[?keyName=='key1'].{keyName:keyName, permissions:permissions, value:value}"' 
 ) do ( 
 set key_json=!key_json!%%a 
 ) 
@@ -44,4 +44,3 @@ echo  Admin Keys:
 call az search admin-key show --subscription !subscription_id! --resource-group !resource_group! --service-name ai102srch!unique_id!
 echo  Query Keys:
 call az search query-key list --subscription !subscription_id! --resource-group !resource_group! --service-name ai102srch!unique_id!
-
